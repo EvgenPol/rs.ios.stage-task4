@@ -3,19 +3,26 @@ import Foundation
 final class FillWithColor {
 
     func fillWithColor(_ image: [[Int]], _ row: Int, _ column: Int, _ newColor: Int) -> [[Int]] {
-        for row in image.indices {
-            for column in image[row].indices {
-                if image[row][column] < 0 {
-                    return image
-                }
+        guard row < image.count && row >= 0 && column >= 0 else {
+            return image
+        }
+        for indexRow in image.indices {
+            if image[indexRow].count <= column {
+                return image
             }
+            
         }
         let m = image.count
         let n = image[row].count
-        guard 1 <= m && n <= 50 && newColor < 65536 && 0 <= row && row <= m && 0 <= column && column <= n  else {
+        guard 1 <= m && n <= 50 && newColor < 65536 && row <= m && 0 <= column && column <= n  else {
             return image
         }
+        
         let oldColor = image[row][column]
+        
+        guard oldColor != newColor else {
+            return image
+        }
         
         let rowMin = image.startIndex
         let rowMax = image.endIndex - 1
